@@ -52,5 +52,15 @@ public final class MyConverter {
 
     }
 
+    @Converter
+    public static Attendance toAttendence(Status status) {
+        if (status.getUser() != null) {
+            return new Attendance(status.getUser().getScreenName(), status.getCreatedAt());
+        } else {
+            return new Attendance("UNKNOWN", status.getCreatedAt());
+        }
+    }
+
+
 
 }

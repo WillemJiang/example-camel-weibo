@@ -19,6 +19,7 @@ package org.apache.camel.example.weibo;
 
 
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.websocket.WebsocketComponent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,13 +54,21 @@ public class WeiboMeetingRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        // setup Camel web-socket component on the port we have defined
+        WebsocketComponent wc = getContext().getComponent("websocket", WebsocketComponent.class);
+        wc.setPort(9090);
+        // we can serve static resources from the classpath: or file: system
+        wc.setStaticResources("classpath:.");
         // Using the position of Beijing
         Position myPosition = new Position(116.327621, 39.982563, 0.1);
         // create the client with a weibo client
-        fromF("weibo://timeline/mentions/?accessToken=%s&delay=30&lastId=%s", getAccessToken(), "3516005995671734")
+        fromF("weibo://timeline/mentions/?accessToken=%s&delay=30&initialDelay=30&lastId=%s", getAccessToken(), "3516005995671734")
                 .choice().when().method(myPosition, "isNearBy")
-                    .to("log:here")
+                    .to("direct:meeting")
                 .otherwise()
                     .to("log:there");
+
+        from("direct:meeting").convertBodyTo(Attendance.class).to("log:here").to("websocket:camel-weibo?sendToAll=true");
+
     }
 }
