@@ -44,7 +44,7 @@ public class WeiboMeetingRoute extends RouteBuilder {
                 .otherwise()
                     .to("log:there");
 
-        from("direct:meeting").convertBodyTo(Attendance.class).to("log:here").to("websocket:camel-weibo?sendToAll=true");
+        from("direct:meeting").convertBodyTo(Attendee.class).to("log:here").to("websocket:camel-weibo?sendToAll=true");
 
     }
 }

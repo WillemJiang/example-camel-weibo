@@ -53,20 +53,20 @@ public final class MyConverter {
     }
 
     @Converter
-    public static Attendance toAttendance(Status status) {
+    public static Attendee toAttendee(Status status) {
         String question = null;
         String text = status.getText();
         if (text != null && text.indexOf("Q") >= 0) {
             question = text.substring(text.indexOf("Q") + 1);
         }
         if (status.getUser() != null) {
-            Attendance attendance = new Attendance(status.getUser().getScreenName(), status.getCreatedAt());
+            Attendee attendee = new Attendee(status.getUser().getScreenName(), status.getCreatedAt());
             if (question != null) {
-                attendance.setQuestion(question);
+                attendee.setQuestion(question);
             }
-            return attendance;
+            return attendee;
         } else {
-            return new Attendance("UNKNOWN", status.getCreatedAt());
+            return new Attendee("UNKNOWN", status.getCreatedAt());
         }
     }
 

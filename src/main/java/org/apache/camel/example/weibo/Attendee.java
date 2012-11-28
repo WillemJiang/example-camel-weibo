@@ -19,14 +19,14 @@ package org.apache.camel.example.weibo;
 
 import java.util.Date;
 
-public class Attendance {
+public class Attendee {
 
     private final String name;
     private final Date date;
     private String question;
 
 
-    public Attendance(String name, Date date) {
+    public Attendee(String name, Date date) {
         this.name = name;
         this.date = date;
     }
