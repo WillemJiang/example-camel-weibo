@@ -21,36 +21,12 @@ package org.apache.camel.example.weibo;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.websocket.WebsocketComponent;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Properties;
+import static org.apache.camel.example.weibo.Utils.getAccessToken;
 
 public class WeiboMeetingRoute extends RouteBuilder {
 
     // setup the access token
-    public String getAccessToken() {
 
-        URL url = getClass().getResource("/weibo.properties");
-
-        InputStream inStream;
-        try {
-            inStream = url.openStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalAccessError("weibo.properties could not be found");
-        }
-
-        Properties properties = new Properties();
-        try {
-            properties.load(inStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalAccessError("weibo.properties could not be found");
-        }
-
-        return properties.get("access.token").toString();
-    }
 
     @Override
     public void configure() throws Exception {

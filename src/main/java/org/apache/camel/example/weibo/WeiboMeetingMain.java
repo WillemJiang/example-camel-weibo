@@ -26,6 +26,7 @@ public class WeiboMeetingMain {
         context.addRoutes(new WeiboMeetingRoute());
         context.start();
         Thread.sleep(62000);
+        //Thread.sleep(30 * 60 * 1000);
         context.stop();
     }
 }

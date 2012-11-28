@@ -16,45 +16,38 @@
  */
 package org.apache.camel.example.weibo;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Properties;
 
-import java.util.Date;
+public final class Utils {
 
-public class Attendance {
-
-    private final String name;
-    private final Date date;
-    private String question;
-
-
-    public Attendance(String name, Date date) {
-        this.name = name;
-        this.date = date;
+    private Utils() {
+        // Utils class
     }
 
-    public String toString() {
-        String answer;
-        if (question == null) {
-            answer = name +  " joined the meeting at " + date;
-        } else {
-            answer = name +  " joined the meeting at " + date + "with question " + question;
+    public static String getAccessToken() {
+
+        URL url = Utils.class.getResource("/weibo.properties");
+
+        InputStream inStream;
+        try {
+            inStream = url.openStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("weibo.properties could not be found");
         }
-        return answer;
-    }
 
-    public String getName() {
-        return name;
-    }
+        Properties properties = new Properties();
+        try {
+            properties.load(inStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalAccessError("weibo.properties could not be found");
+        }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
+        return properties.get("access.token").toString();
     }
 
 }
